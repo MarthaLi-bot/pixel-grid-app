@@ -9,6 +9,7 @@ const DEFAULT_SETTINGS = {
   showGrid: true,
   gridColor: '#ffffff',
   gridLineWidth: 1,
+  colorCount: 'original',
 };
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [fileName, setFileName] = useState('');
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [isCanvasReady, setIsCanvasReady] = useState(false);
+  const [pixelGridStats, setPixelGridStats] = useState(null);
   const canvasRef = useRef(null);
   const renderRequestRef = useRef(0);
 
@@ -23,6 +25,7 @@ function App() {
     const renderRequestId = renderRequestRef.current + 1;
     renderRequestRef.current = renderRequestId;
     setIsCanvasReady(false);
+    setPixelGridStats(null);
 
     const canvas = canvasRef.current;
 
@@ -43,12 +46,14 @@ function App() {
         return;
       }
 
-      pixelateImageToCanvas(image, canvasRef.current, settings);
-      setIsCanvasReady(true);
+      const nextPixelGridStats = pixelateImageToCanvas(image, canvasRef.current, settings);
+      setPixelGridStats(nextPixelGridStats);
+      setIsCanvasReady(Boolean(nextPixelGridStats));
     };
     image.onerror = () => {
       if (renderRequestRef.current === renderRequestId) {
         setIsCanvasReady(false);
+        setPixelGridStats(null);
       }
     };
     image.src = imageUrl;
@@ -56,6 +61,7 @@ function App() {
     return () => {
       if (renderRequestRef.current === renderRequestId) {
         setIsCanvasReady(false);
+        setPixelGridStats(null);
       }
     };
   }, [imageUrl, settings]);
@@ -70,6 +76,7 @@ function App() {
 
   const handleImageSelect = (file) => {
     setIsCanvasReady(false);
+    setPixelGridStats(null);
     setImageUrl((currentUrl) => {
       if (currentUrl) {
         URL.revokeObjectURL(currentUrl);
@@ -82,6 +89,7 @@ function App() {
 
   const handleSettingsChange = (nextSettings) => {
     setIsCanvasReady(false);
+    setPixelGridStats(null);
     setSettings(nextSettings);
   };
 
@@ -122,7 +130,7 @@ function App() {
             onExport={handleExport}
           />
         </div>
-        <PreviewGrid imageUrl={imageUrl} canvasRef={canvasRef} />
+        <PreviewGrid imageUrl={imageUrl} canvasRef={canvasRef} pixelGridStats={pixelGridStats} />
       </div>
     </main>
   );

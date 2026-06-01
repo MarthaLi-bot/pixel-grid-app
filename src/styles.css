@@ -5,16 +5,25 @@
   font-synthesis: none;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
+  --brand: #3366cc;
+  --brand-dark: #214f9f;
+  --card-border: rgba(85, 112, 170, 0.16);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 button,
@@ -57,7 +66,7 @@ button {
 
 .eyebrow {
   margin: 0;
-  color: #3366cc;
+  color: var(--brand);
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -66,7 +75,7 @@ button {
 
 .workspace {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: minmax(280px, 320px) 1fr;
   gap: 20px;
   align-items: start;
 }
@@ -78,7 +87,7 @@ button {
 
 .panel,
 .preview-card {
-  border: 1px solid rgba(85, 112, 170, 0.16);
+  border: 1px solid var(--card-border);
   border-radius: 24px;
   background: #ffffff;
   box-shadow: 0 12px 36px rgba(42, 61, 107, 0.08);
@@ -103,20 +112,22 @@ button {
 
 .upload-box {
   display: grid;
+  min-height: 156px;
   place-items: center;
   gap: 8px;
   margin-top: 18px;
-  padding: 26px 18px;
+  padding: 28px 18px;
   border: 2px dashed #9ab0df;
   border-radius: 20px;
   background: #f8fbff;
   cursor: pointer;
   text-align: center;
+  touch-action: manipulation;
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .upload-box:hover {
-  border-color: #3366cc;
+  border-color: var(--brand);
   transform: translateY(-1px);
 }
 
@@ -130,19 +141,36 @@ button {
 
 .upload-icon {
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   place-items: center;
   border-radius: 50%;
-  background: #3366cc;
+  background: var(--brand);
   color: #ffffff;
-  font-size: 1.8rem;
+  font-size: 2rem;
   line-height: 1;
 }
 
 .controls-panel {
   display: grid;
   gap: 18px;
+}
+
+.control-group {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid #d8e2f3;
+  border-radius: 18px;
+  background: #fbfdff;
+}
+
+.control-group legend {
+  padding: 0 6px;
+  color: #303c54;
+  font-weight: 800;
 }
 
 .field {
@@ -155,7 +183,7 @@ button {
 .field select,
 .field input[type="number"] {
   width: 100%;
-  min-height: 44px;
+  min-height: 48px;
   padding: 0 12px;
   border: 1px solid #cbd5e8;
   border-radius: 12px;
@@ -165,25 +193,38 @@ button {
 
 .field input[type="color"] {
   width: 100%;
-  height: 44px;
+  min-height: 48px;
+  height: 48px;
   padding: 4px;
   border: 1px solid #cbd5e8;
   border-radius: 12px;
   background: #ffffff;
 }
 
+.field input[type="range"] {
+  width: 100%;
+  min-height: 48px;
+  margin: 0;
+  accent-color: var(--brand);
+  cursor: pointer;
+}
+
 .checkbox-field {
   display: flex;
-  gap: 10px;
+  min-height: 48px;
+  gap: 12px;
   align-items: center;
   color: #303c54;
   font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .checkbox-field input {
-  width: 18px;
-  height: 18px;
-  accent-color: #3366cc;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  accent-color: var(--brand);
 }
 
 .inline-fields {
@@ -192,19 +233,25 @@ button {
   gap: 12px;
 }
 
+.export-bar {
+  display: grid;
+}
+
 .primary-button {
   width: 100%;
-  min-height: 48px;
+  min-height: 52px;
   border-radius: 14px;
-  background: #3366cc;
+  background: var(--brand);
   color: #ffffff;
   cursor: pointer;
   font-weight: 800;
   box-shadow: 0 12px 24px rgba(51, 102, 204, 0.24);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  touch-action: manipulation;
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
 .primary-button:hover:not(:disabled) {
+  background: var(--brand-dark);
   transform: translateY(-1px);
 }
 
@@ -233,6 +280,34 @@ button {
 
 .preview-heading p {
   margin: 0;
+}
+
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 20px 0;
+}
+
+.grid-stats div {
+  padding: 12px;
+  border: 1px solid #d8e2f3;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+
+.grid-stats dt {
+  margin: 0 0 4px;
+  color: #6a7488;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.grid-stats dd {
+  margin: 0;
+  color: #172033;
+  font-size: 1rem;
+  font-weight: 800;
 }
 
 .preview-frame {
@@ -284,24 +359,111 @@ button {
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 720px) {
   .app-shell {
     width: min(100% - 20px, 1180px);
-    padding: 20px 0;
+    padding: 18px 0 calc(24px + var(--safe-bottom));
+  }
+
+  .hero {
+    margin-bottom: 16px;
+    padding: 22px 18px;
+    border-radius: 22px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 11vw, 3rem);
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .workspace,
+  .sidebar,
+  .preview-grid {
+    gap: 14px;
+  }
+
+  .panel,
+  .preview-card {
+    border-radius: 20px;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+
+  .upload-box {
+    min-height: 148px;
+    padding: 24px 14px;
+  }
+
+  .controls-panel {
+    gap: 14px;
+  }
+
+  .control-group {
+    padding: 14px;
+  }
+
+  .inline-fields,
+  .grid-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .export-bar {
+    position: sticky;
+    bottom: calc(10px + var(--safe-bottom));
+    z-index: 2;
+    margin-top: 2px;
+  }
+
+  .primary-button {
+    min-height: 56px;
+    font-size: 1.05rem;
+    box-shadow: 0 14px 30px rgba(51, 102, 204, 0.32);
+  }
+
+  .preview-heading {
+    padding: 18px 18px 0;
+  }
+
+  .grid-stats {
+    margin: 14px 18px 0;
+  }
+
+  .preview-frame {
+    min-height: 260px;
+    margin: 14px;
+    overflow-x: auto;
+  }
+
+  .preview-frame img,
+  .preview-frame canvas {
+    max-width: 100%;
+    max-height: 420px;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-shell {
+    width: min(100% - 14px, 1180px);
   }
 
   .hero,
   .panel {
-    padding: 20px;
-    border-radius: 20px;
+    padding: 16px;
   }
 
-  .inline-fields {
-    grid-template-columns: 1fr;
+  .field select,
+  .field input[type="number"],
+  .field input[type="color"],
+  .field input[type="range"] {
+    min-height: 52px;
   }
 
   .preview-frame {
-    min-height: 280px;
-    margin: 14px;
+    margin: 10px;
   }
 }
