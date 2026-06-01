@@ -1,6 +1,6 @@
 import ImagePreview from './ImagePreview.jsx';
 
-function PreviewGrid({ imageUrl, canvasRef }) {
+function PreviewGrid({ imageUrl, canvasRef, pixelGridStats }) {
   return (
     <div className="preview-grid">
       <ImagePreview
@@ -17,6 +17,7 @@ function PreviewGrid({ imageUrl, canvasRef }) {
         imageUrl={imageUrl}
         canvasRef={canvasRef}
         alt="处理后的像素格图片"
+        pixelGridStats={pixelGridStats}
       />
     </div>
   );
