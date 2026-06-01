@@ -1,6 +1,6 @@
 const BLOCK_SIZE_OPTIONS = [4, 8, 12, 16, 24, 32];
 
-function PixelControls({ settings, onSettingsChange, disabled, onExport }) {
+function PixelControls({ settings, onSettingsChange, disabled, exportDisabled, onExport }) {
   const updateSetting = (key, value) => {
     onSettingsChange({
       ...settings,
@@ -62,7 +62,7 @@ function PixelControls({ settings, onSettingsChange, disabled, onExport }) {
         </label>
       </div>
 
-      <button className="primary-button" type="button" onClick={onExport} disabled={disabled}>
+      <button className="primary-button" type="button" onClick={onExport} disabled={exportDisabled}>
         导出 PNG 图片
       </button>
     </section>
