@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="图片像素格转换器图标">
+  <rect width="128" height="128" rx="28" fill="#3366cc"/>
+  <rect x="24" y="24" width="80" height="80" rx="14" fill="#f8fbff"/>
+  <g stroke="#d8e2f3" stroke-width="2">
+    <path d="M44 24v80M64 24v80M84 24v80M24 44h80M24 64h80M24 84h80"/>
+  </g>
+  <rect x="32" y="32" width="16" height="16" rx="3" fill="#7fd1ae"/>
+  <rect x="52" y="32" width="16" height="16" rx="3" fill="#ffd166"/>
+  <rect x="72" y="32" width="16" height="16" rx="3" fill="#ef476f"/>
+  <rect x="32" y="52" width="16" height="16" rx="3" fill="#90cdf4"/>
+  <rect x="52" y="52" width="16" height="16" rx="3" fill="#3366cc"/>
+  <rect x="72" y="52" width="16" height="16" rx="3" fill="#7fd1ae"/>
+  <rect x="32" y="72" width="16" height="16" rx="3" fill="#ffd166"/>
+  <rect x="52" y="72" width="16" height="16" rx="3" fill="#90cdf4"/>
+  <rect x="72" y="72" width="16" height="16" rx="3" fill="#ef476f"/>
+</svg>
