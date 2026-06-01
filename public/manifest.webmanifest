@@ -1,0 +1,19 @@
+{
+  "name": "图片像素格转换器",
+  "short_name": "像素格",
+  "description": "在浏览器本地把图片转换为像素格效果并导出 PNG。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#3366cc",
+  "background_color": "#f5f7fb",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
