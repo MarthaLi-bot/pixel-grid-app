@@ -1,4 +1,10 @@
 const BLOCK_SIZE_OPTIONS = [4, 8, 12, 16, 24, 32];
+const COLOR_COUNT_OPTIONS = [
+  { value: 'original', label: '原图颜色' },
+  { value: '8', label: '8 色' },
+  { value: '4', label: '4 色' },
+  { value: '2', label: '2 色' },
+];
 
 function PixelControls({ settings, onSettingsChange, disabled, exportDisabled, onExport }) {
   const updateSetting = (key, value) => {
@@ -24,6 +30,19 @@ function PixelControls({ settings, onSettingsChange, disabled, exportDisabled, o
         >
           {BLOCK_SIZE_OPTIONS.map((size) => (
             <option key={size} value={size}>{size}px</option>
+          ))}
+        </select>
+      </label>
+
+      <label className="field">
+        <span>颜色数量</span>
+        <select
+          value={settings.colorCount}
+          onChange={(event) => updateSetting('colorCount', event.target.value)}
+          disabled={disabled}
+        >
+          {COLOR_COUNT_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
       </label>
