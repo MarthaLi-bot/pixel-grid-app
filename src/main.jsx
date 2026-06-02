@@ -8,7 +8,9 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 );
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
+const isElectronDesktop = Boolean(window.pixelGridDesktop?.isElectron) || navigator.userAgent.includes('Electron');
+
+if (!isElectronDesktop && 'serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch((error) => {
       console.warn('Service worker registration failed:', error);

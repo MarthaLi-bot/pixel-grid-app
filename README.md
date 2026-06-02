@@ -69,3 +69,55 @@ DEPLOY_TARGET=github-pages npm run build
 9. 在 iPhone Safari 中打开该 HTTPS 地址，点击分享按钮，选择“添加到主屏幕”，确认应用图标和名称可正常显示，并从主屏幕启动应用进行上传、像素化和导出测试。
 
 Vercel 会使用根路径 `/` 加载静态资源、`manifest.webmanifest` 和 `sw.js`。项目中的 `vercel.json` 已将所有前端路由重写到 `/index.html`，便于单页应用刷新或直接访问子路径。
+
+## Windows 桌面版
+
+本项目新增 Electron 桌面壳，用于把现有 React + Vite 图片像素格转换器打包成 Windows 电脑可双击运行的桌面软件。桌面版不会重写或替换现有网页端逻辑，图片像素化、颜色数量、网格线、横向/纵向格数和导出 PNG 等核心功能仍由本机 Canvas 完成。
+
+### 安装依赖
+
+```bash
+npm install
+```
+
+### 运行桌面开发版
+
+```bash
+npm run desktop:dev
+```
+
+该命令会启动本机 Vite dev server，并让 Electron 只加载本机地址 `http://127.0.0.1:5173`。开发模式仅用于本机调试，不依赖公网服务。
+
+### 构建 Windows 桌面软件
+
+```bash
+npm run desktop:build
+```
+
+该命令会先用桌面模式构建本地 `dist/index.html` 和静态资源，再通过 electron-builder 生成 Windows 程序。桌面生产版会从本地 `dist/index.html` 加载应用，不会加载 Vercel、GitHub Pages、`github.io`、`vercel.app` 或任何公网 URL。
+
+构建完成后，请到 `release/` 目录查找 Windows 输出文件，通常包括：
+
+- 免安装版 portable `.exe`
+- 安装版 `.exe`
+
+本项目生成的是未签名 Windows exe，不配置也不需要代码签名证书；桌面打包配置会跳过 Windows 代码签名相关步骤。如果 Windows SmartScreen 显示“未知发布者”，这是因为生成的 exe 没有代码签名证书，不代表程序会联网，也不代表程序会上传图片。
+
+如果你之前构建时卡在 `winCodeSign` 下载或解压（例如提示 `Cannot create symbolic link`），请更新到当前代码后重新运行：
+
+```powershell
+npm.cmd run desktop:build
+```
+
+如本机保留了上一次失败的 electron-builder 缓存，可先删除 `%LOCALAPPDATA%\electron-builder\Cache\winCodeSign` 后再重试。
+
+### 断网验收步骤
+
+1. 关闭 Wi-Fi，或断开有线网络。
+2. 双击 `release/` 目录中的 Windows exe。
+3. 上传一张本地图片。
+4. 生成像素格效果。
+5. 切换颜色数量、显示或隐藏网格线，并确认横向/纵向格数正常显示。
+6. 导出 PNG。
+
+桌面版所有图片处理都在用户电脑本机完成，不上传用户图片；生产模式不依赖 Vercel、GitHub Pages、VPN、CDN、在线字体、在线图标、远程脚本、远程 CSS 或任何公网服务。为避免 PWA 缓存影响 Electron 本地文件加载，应用在 Electron 环境中会跳过 service worker 注册。

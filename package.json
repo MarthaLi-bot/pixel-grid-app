@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "desktop:dev": "node scripts/desktop-dev.cjs",
+    "desktop:build": "node scripts/build-desktop.cjs"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -14,6 +16,34 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^5.4.11"
+    "vite": "^5.4.11",
+    "electron": "^31.7.0",
+    "electron-builder": "^24.13.3"
+  },
+  "main": "electron/main.cjs",
+  "build": {
+    "appId": "com.pixelgrid.converter",
+    "productName": "图片像素格转换器",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "signAndEditExecutable": false,
+      "signDlls": false,
+      "forceCodeSigning": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }
