@@ -10,9 +10,6 @@ const port = 5173;
 const startUrl = `http://${host}:${port}`;
 const npmCommand = isWindows ? 'npm.cmd' : 'npm';
 const viteArgs = ['run', 'dev', '--', '--host', host, '--port', String(port), '--strictPort'];
-const electronCommand = getElectronCommand();
-
-const vite = spawnDevServer();
 
 let electronProcess;
 let shuttingDown = false;
@@ -22,13 +19,25 @@ function getElectronCommand() {
     const electronExe = path.join(projectRoot, 'node_modules', 'electron', 'dist', 'electron.exe');
 
     if (fs.existsSync(electronExe)) {
-      return { command: electronExe, shell: false };
+      return {
+        command: electronExe,
+        args: ['.'],
+        shell: false,
+      };
     }
 
-    return { command: path.join(projectRoot, 'node_modules', '.bin', 'electron.cmd'), shell: true };
+    return {
+      command: 'cmd.exe',
+      args: ['/d', '/s', '/c', path.join(projectRoot, 'node_modules', '.bin', 'electron.cmd'), '.'],
+      shell: false,
+    };
   }
 
-  return { command: path.join(projectRoot, 'node_modules', '.bin', 'electron'), shell: false };
+  return {
+    command: path.join(projectRoot, 'node_modules', '.bin', 'electron'),
+    args: ['.'],
+    shell: false,
+  };
 }
 
 function spawnDevServer() {
@@ -46,6 +55,8 @@ function spawnDevServer() {
     shell: false,
   });
 }
+
+const vite = spawnDevServer();
 
 function stopAll(exitCode = 0) {
   if (shuttingDown) {
@@ -105,7 +116,9 @@ vite.on('exit', (code) => {
 
 waitForServer()
   .then(() => {
-    electronProcess = spawn(electronCommand.command, ['.'], {
+    const electronCommand = getElectronCommand();
+
+    electronProcess = spawn(electronCommand.command, electronCommand.args, {
       cwd: projectRoot,
       stdio: 'inherit',
       shell: electronCommand.shell,
